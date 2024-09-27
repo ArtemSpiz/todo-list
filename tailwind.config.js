@@ -6,7 +6,11 @@ export default {
 		'./assets/img/**/*.{jpg,png}',
 	],
 	theme: {
-		extend: {},
+		extend: {
+			fontFamily: {
+				custom: ['Racing Sans One', 'regular'],
+			},
+		},
 	},
 	plugins: [],
 }

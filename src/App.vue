@@ -1,39 +1,46 @@
 <script>
-import Today from './components/today.vue'
 import Week from './components/week.vue'
 
 export default {
 	components: {
-		Today,
 		Week,
 	},
-
-	data: function () {
+	data() {
 		return {
-			tasksForToday: [],
 			connection: null,
 		}
 	},
-
 	methods: {
-		handleUpdateTasks(tasks) {
-			this.tasksForToday = tasks
-		},
-
-		sendMessage(tasks) {
+		sendMessage(tasksByDate) {
 			if (this.connection && this.connection.readyState === WebSocket.OPEN) {
-				const message = JSON.stringify(tasks)
-				this.connection.send(message)
+				const formattedTasks = this.formatTasksForSending(tasksByDate)
+				if (Object.keys(formattedTasks).length > 0) {
+					const message = JSON.stringify(formattedTasks)
+					this.connection.send(message)
+				} else {
+					console.log('No tasks to send.')
+				}
 			} else {
 				console.log('WebSocket connection is not open.')
 			}
 		},
+		formatTasksForSending(tasksByDate) {
+			let formattedTasks = {}
+			for (const [date, tasks] of Object.entries(tasksByDate)) {
+				if (tasks.length > 0) {
+					formattedTasks[date] = tasks.map(task => ({
+						id: task.id,
+						text: task.text,
+					}))
+				}
+			}
+			return formattedTasks
+		},
 	},
-
-	created: function () {
+	created() {
 		this.connection = new WebSocket('wss://echo.websocket.org')
 		this.connection.onmessage = function (event) {
-			console.log('Message received:', event.data)
+			console.log('Tasks sent:', event.data)
 		}
 
 		this.connection.onopen = function () {
@@ -44,31 +51,17 @@ export default {
 </script>
 
 <template>
-	<main class="bg bg-cover bg-center h-screen justify-center flex flex-col">
+	<main class="min-h-screen justify-center flex flex-col bg-zinc-800">
 		<div
-			class="justify-center flex flex-col lg:justify-evenly lg:flex-row lg:items-center"
+			class="justify-center flex flex-col lg:justify-evenly lg:flex-row lg:items-center p-11"
 		>
-			<Today @update-tasks="handleUpdateTasks" />
-			<Week />
-		</div>
-
-		<div class="justify-center flex pt-10">
-			<button
-				class="bg-slate-500 hover:bg-slate-600 text-black font-bold py-1 px-2 rounded transition duration-300"
-				v-on:click="sendMessage(tasksForToday)"
-			>
-				Send Message
-			</button>
+			\ <Week @sendTasks="sendMessage" />
 		</div>
 	</main>
 </template>
 
-<style>
+<style scoped>
 body {
 	margin: 0px;
-}
-
-.bg {
-	background-image: url('./assets/img/rectangle.png');
 }
 </style>
