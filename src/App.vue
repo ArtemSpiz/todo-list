@@ -52,9 +52,7 @@ export default {
 
 <template>
 	<main class="min-h-screen justify-center flex flex-col bg-zinc-800">
-		<div
-			class="justify-center flex flex-col lg:justify-evenly lg:flex-row lg:items-center p-11"
-		>
+		<div class="justify-center flex flex-col lg:flex-row lg:items-center p-11">
 			\ <Week @sendTasks="sendMessage" />
 		</div>
 	</main>

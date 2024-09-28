@@ -124,112 +124,118 @@ const sendAllTasks = () => {
 
 <template>
 	<main
-		class="flex justify-center bg-zinc-700 p-20 rounded-lg shadow-2xl shadow-black w-11/12"
+		class="flex flex-col justify-center items-center bg-zinc-700 p-4 sm:p-6 lg:p-20 rounded-lg shadow-2xl shadow-black w-full max-w-lg lg:max-w-4xl"
 	>
-		<div class="flex flex-col w-11/12 max-w-2xl pr-20">
-			<div class="text-center mb-6">
-				<h1
-					class="text-white text-5xl font-extrabold tracking-wider mb-2 drop-shadow-lg"
-				>
-					TO-DO NOW
-				</h1>
-			</div>
+		<div class="text-center mb-6">
+			<h1
+				class="text-white text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-wider drop-shadow-lg"
+			>
+				TO-DO NOW
+			</h1>
+		</div>
 
-			<div class="date-selector mb-4">
-				<input
-					type="date"
-					v-model="selectedDate"
-					id="date-input"
-					class="shadow-black flex-grow bg-zinc-400 text-black placeholder:text-gray-600 hover:bg-zinc-500 px-4 py-2 rounded-lg focus:outline-none shadow-md focus:shadow-lg transition duration-300"
-				/>
-			</div>
+		<div class="w-full mb-4">
+			<input
+				type="date"
+				v-model="selectedDate"
+				id="date-input"
+				class="w-full shadow-black bg-zinc-400 text-black placeholder:text-gray-600 hover:bg-zinc-500 px-4 py-2 rounded-lg focus:outline-none shadow-md focus:shadow-lg transition duration-300"
+			/>
+		</div>
 
-			<div class="shadow-black flex mb-4 shadow-md rounded-lg">
-				<input
-					type="text"
-					v-model="newTask"
-					class="flex-grow bg-zinc-400 text-black placeholder:text-gray-600 hover:bg-zinc-500 px-4 py-2 rounded-l-lg focus:outline-none shadow-md focus:shadow-lg transition duration-300"
-					placeholder="Write a task"
-					@keyup.enter="addTask"
-				/>
+		<div
+			class="flex flex-col sm:flex-row w-full mb-4 shadow-black shadow-none sm:shadow-md rounded-lg"
+		>
+			<input
+				type="text"
+				v-model="newTask"
+				class="flex-grow bg-zinc-400 text-black placeholder:text-gray-600 hover:bg-zinc-500 px-4 py-2 rounded-l-lg rounded-r-lg focus:outline-none transition sm:rounded-r-none shadow-black shadow-md sm:shadow-none mb-2 sm:mb-0"
+				placeholder="Write a task"
+				@keyup.enter="addTask"
+			/>
 
-				<button
-					@click="addTask"
-					class="bg-zinc-800 text-white px-6 py-2 rounded-r-lg hover:bg-zinc-900 transition duration-300 shadow-md hover:shadow-lg"
-				>
-					Add task
-				</button>
-			</div>
+			<button
+				@click="addTask"
+				class="bg-zinc-800 shadow-black shadow-md sm:shadow-none text-white px-6 py-2 rounded-r-lg rounded-l-lg sm:rounded-l-none hover:bg-zinc-900 transition duration-300 hover:shadow-lg"
+			>
+				Add task
+			</button>
+		</div>
 
-			<ul>
-				<li
-					v-for="task in filterTasks"
-					:key="task.id"
-					class="mb-4 p-4 bg-zinc-800 rounded-lg shadow-md hover:shadow-lg transition duration-300"
-				>
-					<div class="flex items-center justify-between mb-2">
-						<div class="flex items-center">
-							<input
-								type="checkbox"
-								v-model="task.done"
-								class="mr-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-							/>
-							<span
-								:class="{
-									'line-through text-gray-500': task.done,
-									'text-white': !task.done,
-								}"
-								class="text-lg"
-							>
-								{{ task.text }}
-							</span>
-						</div>
-
-						<div class="flex items-center justify-between w-1/4">
-							<select
-								class="text-black bg-gray-400 hover:bg-gray-500 rounded-md text-center px-2 py-1 shadow focus:outline-none focus:ring-2 focus:ring-gray-600"
-								v-model="task.priority"
-							>
-								<option value="1">High</option>
-								<option value="2">Medium</option>
-								<option value="3">Low</option>
-							</select>
-
-							<button
-								@click="removeTask(task)"
-								class="bg-gray-400 hover:bg-gray-500 text-black rounded-xl p-2 transition duration-300 shadow-md hover:shadow-lg"
-							>
-								<img
-									src="../assets/img/iconGarbage.png"
-									alt="Delete Task"
-									class="w-5 h-5"
-								/>
-							</button>
-						</div>
+		<ul class="w-full shadow-black">
+			<li
+				v-for="task in filterTasks"
+				:key="task.id"
+				class="shadow-black mb-4 p-4 bg-zinc-800 rounded-lg shadow-md transition duration-300"
+			>
+				<div class="flex sm:flex-row items-center justify-between mb-2">
+					<div class="flex items-center max-w-2/3 sm:w-auto">
+						<input
+							type="checkbox"
+							v-model="task.done"
+							class="mr-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+						/>
+						<span
+							:class="{
+								'line-through text-gray-500': task.done,
+								'text-white': !task.done,
+							}"
+							class="text-lg"
+						>
+							{{ task.text }}
+						</span>
 					</div>
 
-					<div class="flex items-center mb-2">
+					<div
+						class="flex items-center justify-between mt-2 space-x-2 min-w-1/3 max-w-1/2"
+					>
+						<select
+							class="text-black bg-gray-400 hover:bg-gray-500 rounded-md text-center px-0 py-1 shadow focus:outline-none focus:ring-2 focus:ring-gray-600 sm:px-2"
+							v-model="task.priority"
+						>
+							<option value="1">High</option>
+							<option value="2">Medium</option>
+							<option value="3">Low</option>
+						</select>
+
+						<button
+							@click="removeTask(task)"
+							class="bg-gray-400 hover:bg-gray-500 text-black rounded-xl p-2 transition duration-300 shadow-md hover:shadow-lg"
+						>
+							<img
+								src="../assets/img/iconGarbage.png"
+								alt="Delete Task"
+								class="w-5 h-5"
+							/>
+						</button>
+					</div>
+				</div>
+
+				<div class="flex flex-col mb-2 space-y-2">
+					<div
+						class="flex items-center flex-col sm:flex-row w-full mb-4 shadow-black shadow-none sm:shadow-md rounded-lg mt-4 space-x-0 sm:space-x-2"
+					>
 						<input
 							type="text"
 							v-model="task.newSubtask"
-							class="flex-grow bg-zinc-700 text-white placeholder:text-white hover:bg-zinc-700 px-4 py-2 rounded-l-lg transition duration-300 focus:outline-none"
+							class="flex-grow bg-zinc-700 text-white placeholder:text-white hover:bg-zinc-600 px-4 py-2 rounded-lg transition duration-300 focus:outline-none sm:max-w-full mb-2 sm:mb-0"
 							placeholder="Write a subtask"
 							@keyup.enter="addSubtask(task)"
 						/>
 
 						<button
 							@click="addSubtask(task)"
-							class="text-black bg-zinc-400 hover:bg-zinc-500 text-center px-6 py-2 block rounded-r-lg"
+							class="bg-zinc-400 hover:bg-zinc-500 text-black text-center px-3 py-2 rounded-md shadow-md hover:shadow-lg transition duration-300 text-base"
 						>
 							Add Subtask
 						</button>
 					</div>
 
-					<ul class="ml-6 mt-2">
+					<ul class="ml-2 mt-2">
 						<li
 							v-for="subtask in task.subtasks"
 							:key="subtask.id"
-							class="flex items-center mb-1"
+							class="flex items-center mb-1 space-x-2"
 						>
 							<input
 								type="checkbox"
@@ -246,7 +252,7 @@ const sendAllTasks = () => {
 							</span>
 							<button
 								@click="removeSubtask(task, subtask)"
-								class="bg-gray-400 ml-5 hover:bg-gray-500 text-black rounded-xl p-2 transition duration-300 shadow-md hover:shadow-lg"
+								class="bg-gray-400 hover:bg-gray-500 text-black rounded-xl p-2 transition duration-300 shadow-md hover:shadow-lg"
 							>
 								<img
 									src="../assets/img/iconGarbage.png"
@@ -256,48 +262,31 @@ const sendAllTasks = () => {
 							</button>
 						</li>
 					</ul>
-				</li>
-			</ul>
+				</div>
+			</li>
+		</ul>
 
-			<div class="flex justify-between mt-4">
-				<button
-					@click="hideCompleted = !hideCompleted"
-					:disabled="!hasCompletedTask"
-					class="bg-zinc-800 hover:bg-zinc-900 text-white py-2 px-4 rounded-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg"
-				>
-					{{ hideCompleted ? 'Show All' : 'Hide Completed' }}
-				</button>
-
-				<button
-					@click="deleteAll"
-					class="bg-red-600 hover:bg-red-500 text-white py-2 px-4 rounded-lg transition duration-300 shadow-md hover:shadow-lg"
-				>
-					Delete All
-				</button>
-			</div>
-		</div>
-
-		<div class="w-auto items-center flex flex-col justify-evenly">
-			<div
-				class="p-4 bg-zinc-800 shadow-md rounded-lg shadow-black"
-				v-if="datesWithTasks.length"
-			>
-				<h3 class="font-bold text-lg text-white mb-2">Tasks for other days:</h3>
-				<ul>
-					<li
-						v-for="dateInfo in datesWithTasks"
-						:key="dateInfo.date"
-						class="text-white py-1 px-2 border-b border-gray-600 hover:bg-zinc-700 transition duration-300"
-					>
-						Date: {{ dateInfo.date }} — {{ dateInfo.taskCount }} task
-					</li>
-				</ul>
-			</div>
+		<div class="flex flex-col sm:flex-row justify-between mt-4 w-full">
 			<button
-				class="flex bg-zinc-800 text-white px-6 py-2 rounded -lg hover:bg-zinc-900 transition duration-300 shadow-black shadow-md hover:shadow-lg"
+				@click="hideCompleted = !hideCompleted"
+				:disabled="!hasCompletedTask"
+				class="bg-zinc-800 hover:bg-zinc-900 text-white py-2 px-4 rounded-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed mb-4 sm:mb-0 shadow-black shadow-md"
+			>
+				{{ hideCompleted ? 'Show All' : 'Hide Completed' }}
+			</button>
+
+			<button
+				class="flex bg-zinc-800 text-white px-6 py-2 rounded-lg hover:bg-zinc-900 transition duration-300 mb-4 justify-center shadow-black shadow-md"
 				@click="sendAllTasks"
 			>
 				Send All Tasks
+			</button>
+
+			<button
+				@click="deleteAll"
+				class="bg-red-600 hover:bg-red-500 text-white py-2 px-4 rounded-lg transition duration-300 shadow-black shadow-md"
+			>
+				Delete All
 			</button>
 		</div>
 	</main>
