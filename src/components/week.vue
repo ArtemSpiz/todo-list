@@ -159,7 +159,7 @@ const sendAllTasks = () => {
 				:key="task.id"
 				class="shadow-black mb-4 p-4 bg-zinc-800 rounded-lg shadow-md transition duration-300"
 			>
-				<div class="flex sm:flex-row items-center justify-between mb-2">
+				<div class="flex sm:flex-row items-center justify-between">
 					<div class="flex items-center max-w-2/3 sm:w-auto">
 						<input
 							type="checkbox"
@@ -178,7 +178,7 @@ const sendAllTasks = () => {
 					</div>
 
 					<div
-						class="flex items-center justify-between mt-2 space-x-2 min-w-1/3 max-w-1/2"
+						class="flex items-center justify-between space-x-2 min-w-1/3 max-w-1/2"
 					>
 						<select
 							class="text-black bg-gray-400 hover:bg-gray-500 rounded-md text-center px-0 py-1 shadow focus:outline-none focus:ring-2 focus:ring-gray-600 sm:px-2"
@@ -204,7 +204,7 @@ const sendAllTasks = () => {
 
 				<div class="flex flex-col mb-2 space-y-2">
 					<div
-						class="flex items-center flex-col sm:flex-row w-full mb-4 shadow-black shadow-none sm:shadow-md rounded-lg mt-4 space-x-0 sm:space-x-2"
+						class="flex flex-col sm:flex-row w-full mb-4 shadow-black shadow-none sm:shadow-md rounded-lg mt-4 space-x-0 sm:space-x-2"
 					>
 						<input
 							type="text"
