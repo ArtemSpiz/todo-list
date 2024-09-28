@@ -22,15 +22,6 @@ const hasCompletedTask = computed(() => {
 	return tasks.value[selectedDate.value]?.some(t => t.done)
 })
 
-const datesWithTasks = computed(() => {
-	return Object.keys(tasks.value)
-		.map(date => ({
-			date,
-			taskCount: tasks.value[date].length,
-		}))
-		.filter(dateInfo => dateInfo.taskCount > 0)
-})
-
 //methods
 const addTask = () => {
 	if (!newTask.value.trim()) {
