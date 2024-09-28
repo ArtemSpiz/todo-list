@@ -276,7 +276,7 @@ const sendAllTasks = () => {
 			</button>
 
 			<button
-				class="flex bg-zinc-800 text-white px-6 py-2 rounded-lg hover:bg-zinc-900 transition duration-300 mb-4 justify-center shadow-black shadow-md"
+				class="flex bg-zinc-800 text-white px-6 py-2 rounded-lg hover:bg-zinc-900 transition duration-300 mb-4 sm:mb-0 justify-center shadow-black shadow-md"
 				@click="sendAllTasks"
 			>
 				Send All Tasks
